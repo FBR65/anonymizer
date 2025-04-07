@@ -424,37 +424,6 @@ Wenn keine zusätzlichen sensiblen Daten gefunden werden, gib **genau** {{"sensi
         self.counters = defaultdict(int)
         print("Anonymizer wurde zurückgesetzt.")
 
-    def anonymize_directory(self, input_dir, output_dir):
-        """Anonymisiert alle Dateien in einem Verzeichnis und speichert sie in einem anderen Verzeichnis."""
-        os.makedirs(
-            output_dir, exist_ok=True
-        )  # Erstelle das Ausgabeverzeichnis, falls es nicht existiert
-        processor = DocumentProcessor(input_dir)
-        documents = processor.stream_all_documents()
-
-        for doc in documents:
-            file_name = doc["metadata"].get("file_name")
-            if file_name:
-                original_content = doc["content"]
-                anonymized_content_list = self.anonymize_batch([original_content])
-                if anonymized_content_list:
-                    anonymized_content = anonymized_content_list[0]
-                    output_file_path = os.path.join(output_dir, f"anon_{file_name}")
-                    try:
-                        with open(output_file_path, "w", encoding="utf-8") as outfile:
-                            outfile.write(anonymized_content)
-                        print(
-                            f"Anonymisierte Datei gespeichert unter: '{output_file_path}'"
-                        )
-                    except Exception as e:
-                        print(
-                            f"Fehler beim Schreiben der Datei '{output_file_path}': {e}"
-                        )
-            else:
-                print(
-                    f"Fehler: Dateiname nicht gefunden in Metadaten für ein Dokument."
-                )
-
 
 # --- Beispielanwendung ---
 if __name__ == "__main__":
@@ -479,4 +448,56 @@ if __name__ == "__main__":
         llm_model_name=LLM_MODEL,  # Passe dies ggf. an deinen Endpunkt/Modell an
     )
 
-    anonymizer.anonymize_directory("data", "anonymisierte_daten")
+    file_path = "data"  # Ersetze dies durch den tatsächlichen Pfad
+    processor = DocumentProcessor(file_path)
+    result = processor.stream_all_documents()
+
+    # Beispieltexte als Batch
+    # texts_to_process = [
+    #     "Max Mustermann wohnt in Berlin. Seine E-Mail ist max.mustermann@email.com.",
+    #     "Erika Mustermann arbeitet bei der Beispiel GmbH in München. Ihr Projekt heißt intern 'Projekt Sonne'.",
+    #     "Kontaktieren Sie Klaus Müller (Tel: 0171-123456) oder Max Mustermann wegen der Lieferung nach Hamburg.",
+    #     "Die Kundennummer lautet KDB-789-C. Das Meeting findet in Berlin statt.",
+    # ]
+    print("--- Starte Batch-Anonymisierung ---")
+    anonymized_results = []
+    for document_data in result:
+        anonymized_results.extend(
+            anonymizer.anonymize_batch([document_data["content"]])
+        )
+
+    print("\n--- Ergebnisse ---")
+    if anonymized_results:
+        for i, (original, anonymized) in enumerate(
+            zip([doc["content"] for doc in result], anonymized_results)
+        ):
+            print(f"Dokument {i + 1} Original:\n{original}")
+            print(f"Dokument {i + 1} Anonymisiert:\n{anonymized}\n" + "-" * 15)
+    else:
+        print("Anonymisierung fehlgeschlagen.")
+
+    print("\n--- Finales Mapping ---")
+    final_mapping = anonymizer.get_mapping()
+    # Schönere Ausgabe des Mappings
+    for original, placeholder in final_mapping.items():
+        print(f"'{original}' -> {placeholder}")
+    print("-" * 20)
+
+    # Beispiel für Datei-Anonymisierung (verwende das gleiche Mapping weiter)
+    input_filename = "original_daten_batch.txt"
+    output_filename = "anonymisierte_daten/anonym_batch.txt"
+
+    try:
+        with open(input_filename, "w", encoding="utf-8") as f:
+            f.write("Anfrage von Sabine Meier (s.meier@beispiel.org).\n")
+            f.write("Projektnummer: PROJ-XYZ-123 in Köln.\n")
+            f.write(
+                "Bezug auf Max Mustermann und KDB-789-C."
+            )  # Testet Konsistenz aus vorherigem Batch
+
+        print(f"\n'{input_filename}' für Datei-Test erstellt.")
+        anonymizer.anonymize_file(input_filename, output_filename)
+        # os.remove(input_filename) # Optional cleanup
+
+    except Exception as e:
+        print(f"Fehler im Datei-Beispiel: {e}")

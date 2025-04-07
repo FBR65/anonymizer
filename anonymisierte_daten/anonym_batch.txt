@@ -1,3 +1,0 @@
-Anfrage von [PER_4] ([ORG_1]).
-Projektnummer: [SENSITIVE_6] in [LOC_5].
-Bezug auf [PER_1] und [SENSITIVE_5].

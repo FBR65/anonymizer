@@ -1,3 +1,0 @@
-Anfrage von Sabine Meier (s.meier@beispiel.org).
-Projektnummer: PROJ-XYZ-123 in Köln.
-Bezug auf Max Mustermann und KDB-789-C.

@@ -19,6 +19,7 @@ dependencies = [
     { name = "dotenv" },
     { name = "requests" },
     { name = "spacy" },
+    { name = "tika" },
 ]
 
 [package.metadata]
@@ -26,6 +27,7 @@ requires-dist = [
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "spacy", specifier = ">=3.8.5" },
+    { name = "tika", specifier = ">=3.1.0" },
 ]
 
 [[package]]
@@ -894,6 +896,19 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/fa/10/9975bcee4dd4634bfb87df0447d7fa86d6c9b2d9228e56d4adb98cc19cbc/thinc-8.3.6-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:f432158b80cf75a096980470b790b51d81daf9c2822598adebfc3cb58588fd6c", size = 5049197 },
     { url = "https://files.pythonhosted.org/packages/9b/34/e1b384009eb8ad2192770157961cd0c2e2712fedf49e1dfd902e3d9b9973/thinc-8.3.6-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:61fb33a22aba40366fa9018ab34580f74fc40be821ab8af77ac1fdbeac17243b", size = 5278543 },
     { url = "https://files.pythonhosted.org/packages/f0/26/f77ef4bd174bfeac491237a4ca3f74ba2ee2f672004f76cff90f8407a489/thinc-8.3.6-cp313-cp313-win_amd64.whl", hash = "sha256:ddd7041946a427f6a9b0b49419353d02ad7eb43fe16724bfcc3bdeb9562040b1", size = 1746883 },
+]
+
+[[package]]
+name = "tika"
+version = "3.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+    { name = "setuptools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c2/e2/28022574d12239d6c158f903c7697ebb55591a05bfd3177146b2c7cd72d2/tika-3.1.0.tar.gz", hash = "sha256:4c3a404c3d846437c942d6a6fd7b71d50285690fae5489aa8a6f00ff9ccd0fc7", size = 32697 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/10/c6/9b549ca412bb03ad64632f5e47a53dc1b56a267809d7d3f9ef6d5b3c0559/tika-3.1.0-py3-none-any.whl", hash = "sha256:c6171c947d6410813f236c988a1fde4a6ad11cbaa95ec4e700eb9aef7c848093", size = 38053 },
 ]
 
 [[package]]
