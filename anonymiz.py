@@ -137,8 +137,6 @@ Wenn keine zusätzlichen sensiblen Daten gefunden werden, gib **genau** {{"sensi
             )
             response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
 
-            # --- Debugging: Print the raw response ---
-            # print(f"Raw LLM Response: {response.text}")
 
             if not response.text:
                 print("Warnung: LLM hat eine leere Antwort zurückgegeben.")
